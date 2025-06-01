@@ -1,4 +1,6 @@
 'use strict';
+import bodyPix from '@tensorflow-models/body-pix';
+import showdown from 'showdown';
 
 onstart.push(() => {
 
@@ -162,14 +164,14 @@ onstart.push(() => {
         el.popupcustomouter.style.display = 'flex';
     }
 
-    const div = ({ className, id }) => {
+    const div = ({ className, id }) : HTMLDivElement => {
         var d = document.createElement("div");
         if (className) { d.className = className; }
         if (id) { d.id = id; }
         return d;
     }
 
-    const img = ({ className, id, src, alt, title }) => {
+    const img = ({ className, id, src, alt, title }) : HTMLImageElement => {
         var i = document.createElement('img');
         if (className) { i.className = className; }
         if (alt) { i.setAttribute('alt', alt); }
@@ -191,7 +193,7 @@ onstart.push(() => {
             { text: question },
             { text: answer, callback }
         ];
-        showContextMenu(list, window.mouseX, window.mouseY);
+        showContextMenu(list, 0, 0);// TODO Placement for this needs fixing
     }
 
     const isInVoiceRoom = () => {
@@ -203,9 +205,9 @@ onstart.push(() => {
     }
 
     const setUserList = (userList) => {
-        var elementParent = div({ className: 'userListParent' });
+        var elementParent = div({ className: 'userListParent', id:null });
         if (hasPerm('inviteUser')) {
-            var inviteDiv = div({ className: 'invitebutton' });
+            var inviteDiv = div({ className: 'invitebutton', id:null });
             inviteDiv.onclick = () => {
                 showInvite();
             };
@@ -218,8 +220,8 @@ onstart.push(() => {
             if (user.hidden) {
                 return;
             }
-            var elementUser = div({ className: 'user' });
-            var textUser = div({ className: 'usertext' });
+            var elementUser = div({ className: 'user', id:null });
+            var textUser = div({ className: 'usertext', id:null });
             var imageUser = document.createElement('img');
             imageUser.className = "userimg";
             imageUser.alt = 'avatar for ' + user.name;
@@ -313,7 +315,7 @@ onstart.push(() => {
     }
 
     const populateContextMenu = (type, id) => {
-        var list = [];
+        var list :any[] = [];
         if (type in contextmenus) {
             contextmenus[type].forEach(option => {
                 if ('permissionRequired' in option) {
@@ -342,7 +344,7 @@ onstart.push(() => {
         return list;
     }
 
-    const showContextMenu = (list, x, y) => {
+    const showContextMenu = (list:any[], x:number, y:number) => {
         el.contextmenu.style.display = 'none';
         if (x < (window.innerWidth / 2)) {
             x = x + 2;
@@ -365,10 +367,10 @@ onstart.push(() => {
         el.contextmenu.innerHTML = '';
 
         list.forEach(item => {
-            var itemdiv = div({ className: 'contextmenuitem' });
+            var itemdiv = div({ className: 'contextmenuitem', id:null });
             if ('slider' in item) {
-                var anotherDiv = document.createElement('label');
-                anotherDiv.for = 'volumeslider'
+                var anotherDiv = <HTMLLabelElement> document.createElement('label');
+                anotherDiv.htmlFor = 'volumeslider'
                 anotherDiv.innerText = item.text;
                 var slider = document.createElement('input');
                 slider.id = 'volumeslider';
@@ -394,7 +396,7 @@ onstart.push(() => {
         el.contextmenu.style.display = "block";
         el.contextmenuouter.style.display = "block";
         el.contextmenu.onmouseleave = (e) => {
-            delete el.contextmenu.onmouseout;
+            el.contextmenu.onmouseout = null;
             el.contextmenu.style.display = 'none';
             el.contextmenuouter.style.display = 'none';
         }
@@ -407,12 +409,12 @@ onstart.push(() => {
                 window.ipc.send('userlist', room.userlist);
             }
         }
-        var elementParent = div({ className: 'roomListParent' });
+        var elementParent = div({ className: 'roomListParent', id:null });
         roomList.forEach((room) => {
-            var elementRoom = div({ className: 'room' });
+            var elementRoom = div({ className: 'room', id:null });
             elementRoom.oncontextmenu = (e) => {
                 e.preventDefault();
-                var list = [];
+                var list :any[] = [];
                 if (room.type == 'voice') {
                     list = populateContextMenu('voiceroom', room.id);
                     if (currentVoiceRoom == room.id) {
@@ -448,20 +450,20 @@ onstart.push(() => {
                 switchRoom(room.id);
 
             }
-            var textRoom = div({ className: 'roomtext' });
+            var textRoom = div({ className: 'roomtext', id:null });
             var imageRoom
             if (room.type === 'voice') {
-                imageRoom = img({ className: 'roomimg', src: 'vroom.svg', alt: 'voice room' });
+                imageRoom = img({ className: 'roomimg', src: 'vroom.svg', alt: 'voice room', id:null, title:null });
             } else {
-                imageRoom = img({ className: 'roomimg', src: 'room.svg', alt: 'text room' });
+                imageRoom = img({ className: 'roomimg', src: 'room.svg', alt: 'text room', id:null, title:null });
             }
-            var usersInRoom = div({ className: 'roomusers' });
+            var usersInRoom = div({ className: 'roomusers', id:null });
             textRoom.innerText = room.name;
 
             room.userlist.forEach((user) => {
                 var user = getUserByID(user.id);
                 var elementUser = div({ className: 'user', id: 'user-' + user.id });
-                var textUser = div({ className: 'usertext' });
+                var textUser = div({ className: 'usertext', id:null });
                 var imageUser = document.createElement('img');
                 imageUser.className = "userimg";
                 imageUser.alt = 'avatar for ' + user.name;
@@ -532,7 +534,9 @@ onstart.push(() => {
     }
 
     send = (message) => {
-        ws.send(JSON.stringify(message));
+        if(ws != null){
+            ws.send(JSON.stringify(message));
+        }
     }
 
     connect = () => {
@@ -565,7 +569,7 @@ onstart.push(() => {
 
     const wsFunc = {
         "connect": (data) => {
-            el.signuplogo.src = el.loginlogo.src = data.icon;
+            (<HTMLImageElement>el.signuplogo).src = (<HTMLImageElement>el.loginlogo).src = data.icon;
             el.signuptitle.innerHTML = el.logintitle.innerHTML = markupParser.makeHtml(data.message);
 
             if (!electronMode) {
@@ -574,7 +578,7 @@ onstart.push(() => {
             updateThemesInSettings();
             contextmenus = data.contextmenus;
 
-            if (! "v1" in data.protocols) {
+            if (! ("v1" in data.protocols)) {
                 el.loginReply.innerHTML = el.signupReply.innerHTML = "Unable to connect : No protocol v1";
             }
             if (customUsername && customPassword) {
@@ -660,12 +664,12 @@ onstart.push(() => {
             }
             if (userid === iam) {
                 currentVoiceRoom = null;
-                Object.values(peerConnection).forEach((pc) => {
+                for(const pc of peerConnection){
                     cleanupStream(pc.userid);
-                })
-                Object.keys(amWatching).forEach(uuid => {
+                }
+                for(const uuid of amWatching){
                     setNotWatching(uuid);
-                });
+                }
                 peerConnection = {};
                 remoteWebcamStream = {};
                 amWatching = {};
@@ -706,7 +710,7 @@ onstart.push(() => {
                             })
                         .catch(err => {
                             console.log(err);
-                            console.log(pc.getSenders());
+                            //console.log(pc.getSenders());
                         })
                     break;
                 case "answer":
@@ -773,21 +777,23 @@ onstart.push(() => {
             var { userid, message } = data;
             var sideuser = document.getElementById('user-' + userid)
             var videouser = document.getElementById('videodiv-' + userid);
-            if (message) {
-                sideuser.classList.add('usermuted');
-                if (videouser) { videouser.classList.add('videodivmuted'); }
-                if (electronMode) { window.ipc.send('muted', userid); }
-            } else {
-                sideuser.classList.remove('usermuted');
-                if (videouser) { videouser.classList.remove('videodivmuted'); }
-                if (electronMode) { window.ipc.send('unmuted', userid); }
+            if(sideuser != null){
+                if (message) {
+                    sideuser.classList.add('usermuted');
+                    if (videouser) { videouser.classList.add('videodivmuted'); }
+                    if (electronMode) { window.ipc.send('muted', userid); }
+                } else {
+                    sideuser.classList.remove('usermuted');
+                    if (videouser) { videouser.classList.remove('videodivmuted'); }
+                    if (electronMode) { window.ipc.send('unmuted', userid); }
+                }
             }
         },
         'talking': (data) => {
             var { userid, talking } = data;
             var sideuser = document.getElementById('user-' + userid)
             var videouser = document.getElementById('videodiv-' + userid);
-            if (message) {
+            if (talking) {
                 if (sideuser) { sideuser.classList.add('usertalking'); }
                 if (videouser) { videouser.classList.add('videodivtalking'); }
                 if (electronMode) { window.ipc.send('talkstart', userid); }
@@ -890,7 +896,7 @@ onstart.push(() => {
                 if ('value' in data) {
                     el.value = data.value;
                 }
-                var inputlist = []
+                var inputlist : any[] = []
                 if ('children' in data) {
                     data.children.forEach(child => {
                         var [childElement, inputlist2] = createWindowElement(child);
@@ -946,11 +952,11 @@ onstart.push(() => {
     }
 
     const processSignup = () => {
-        var email = el.signupEmail.value;
-        var email2 = el.signupEmail2.value;
-        var user = el.signupUser.value;
-        var password = el.signupPassword.value;
-        var password2 = el.signupPassword2.value;
+        var email = (<HTMLInputElement>el.signupEmail).value;
+        var email2 = (<HTMLInputElement>el.signupEmail2).value;
+        var user = (<HTMLInputElement>el.signupUser).value;
+        var password = (<HTMLInputElement>el.signupPassword).value;
+        var password2 = (<HTMLInputElement>el.signupPassword2).value;
         var reply = el.signupReply;
         el.signupReply.innerText = ''
         if (!email) { el.signupEmail.focus(); return; }
@@ -979,7 +985,7 @@ onstart.push(() => {
         }
         if (password !== password2) {
             el.signupReply.innerText = 'Passwords must match!'
-            password2.focus(); return;
+            return;
         }
 
         send({
@@ -993,8 +999,8 @@ onstart.push(() => {
     }
     // 'Next step' in login process.
     const processLogin = () => {
-        var email = el.loginEmail.value;
-        var password = el.loginPassword.value;
+        var email = (<HTMLInputElement>el.loginEmail).value;
+        var password = (<HTMLInputElement>el.loginPassword).value;
 
         el.loginReply.innerText = ''
         if (email) {
@@ -1012,13 +1018,13 @@ onstart.push(() => {
     }
 
     const getRoom = (roomid) => {
-        var ret = null;
-        roomlist.forEach((room) => {
+        var ret :Room|null = null;
+        for (const room of roomlist){
             if (room.id == roomid) {
-                ret = room
+                return room;
             }
-        });
-        return ret;
+        }
+        return null;
     }
 
     populateRoom = () => {
@@ -1028,19 +1034,19 @@ onstart.push(() => {
             el.appCoreView.innerText = '';
             return;
         }
-        var contents = div({});
-        var after = null;
+        var contents = div({id:null, className:null});
+        var after : any = null;
         if (room.type === 'voice') {
-            var liveDiv = div({ className: 'appLiveRoom' });
-            var voiceDiv = div({ className: 'appVoiceRoom' });
+            var liveDiv = div({ className: 'appLiveRoom', id:null });
+            var voiceDiv = div({ className: 'appVoiceRoom', id:null });
             contents.className = 'appContainer';
             if (sharedVideo) {
                 var divcont = div({ className: 'videodiv', id: 'sharedVideoDiv' });
-                var video = document.getElementById('sharedVideo');
+                var video = <HTMLVideoElement>document.getElementById('sharedVideo');
                 if (!video) {
-                    video = document.createElement('video');
-                    video.setAttribute('autoPlay', true);
-                    video.setAttribute('playsInline', true);
+                    video = <HTMLVideoElement>document.createElement('video');
+                    video.setAttribute('autoPlay', "true");
+                    video.setAttribute('playsInline', "true");
                     video.setAttribute('id', 'sharedVideo');
                     video.src = sharedVideo;
                     video.onended = () => {
@@ -1049,7 +1055,9 @@ onstart.push(() => {
                         video.load();
                         sharedVideo = null;
                         var divrm = document.getElementById('sharedVideoDiv');
-                        divrm.parentElement.removeChild(divrm);
+                        if (divrm != null && divrm.parentElement!=null){
+                            divrm.parentElement.removeChild(divrm);
+                        }
                         playToGroup(null);
                     };
 
@@ -1089,17 +1097,17 @@ onstart.push(() => {
                 console.log("User Scrolled to 0");
             }
 
-            var chatDiv = div({ className: 'chatroom' });
+            var chatDiv = div({ className: 'chatroom', id:null });
 
             if (!(currentView in messagelist)) {
-                var divWaiting = div({ className: 'waitingonmessages' });
+                var divWaiting = div({ className: 'waitingonmessages', id:null });
                 divWaiting.innerText = "Loading Messages...";
                 scrollingDiv.appendChild(divWaiting);
             } else {
-                var list = Object.keys(messagelist[currentView]).sort(function (a, b) { return ((a * 1) - (b * 1)) })
-                var onebefore = list[0] - 1;
+                var list = Object.keys(messagelist[currentView]).sort(function (a:string, b:string) { return ((+a) - (+b)) })
+                var onebefore = (+list[0]) - 1;
                 if (onebefore >= 0) {
-                    var dudSegment = div({ className: 'messagesegment dudmessagesegment' });
+                    var dudSegment = div({ className: 'messagesegment dudmessagesegment', id:null });
                     dudSegment.innerText = 'loading more...';
                     scrollingDiv.appendChild(dudSegment);
                     new IntersectionObserver((entries, observer) => {
@@ -1116,11 +1124,11 @@ onstart.push(() => {
                     console.log(currentView);
                     console.log(messagelist);
                     messagelist[currentView][segmentkey].forEach(message => {
-                        var messageDiv = div({ className: 'message' });
-                        var messageUserDiv = div({ className: 'messageuser' });
-                        var messageMessageDiv = div({ className: 'messagemessage' });
+                        var messageDiv = div({ className: 'message', id:null });
+                        var messageUserDiv = div({ className: 'messageuser', id:null });
+                        var messageMessageDiv = div({ className: 'messagemessage', id:null });
                         var messageUserImage = document.createElement('img');
-                        var messageUserText = div({ className: 'messageusertext' });
+                        var messageUserText = div({ className: 'messageusertext', id:null });
                         messageUserImage.className = 'messageuserimg userimg';
                         messageUserDiv.appendChild(messageUserImage);
                         messageUserDiv.appendChild(messageUserText);
@@ -1133,7 +1141,7 @@ onstart.push(() => {
                             messageUserText.innerText = message.username;
                             messageUserImage.src = message.avatar;
                             messageMessageDiv.innerHTML = markupParser.makeHtml(message.text);
-                            messageMessageDiv.onclick = () => window.open(message.url, '_blank').focus()
+                            messageMessageDiv.onclick = () => window.open(message.url, '_blank')?.focus()
                         } else {
                             var user = getUserByID(message.userid);
                             var username = user ? user.name : '[deleted user]';
@@ -1153,7 +1161,7 @@ onstart.push(() => {
                                 messageMessageDiv.innerHTML = markupParser.makeHtml(message.text);
                                 messageMessageDiv.oncontextmenu = (e) => {
                                     e.preventDefault();
-                                    var list = populateContextMenu('message', nessage.id);
+                                    var list = populateContextMenu('message', message.id);
                                     if (message.userid === iam || hasPerm('changeMessage')) {
                                         list.push(
                                             {
@@ -1201,7 +1209,7 @@ onstart.push(() => {
                             var html = messageUserDiv.innerHTML;
                             console.log(html + " " + lastHtml);
                             if (html === lastHtml) {
-                                messageUserDiv.style.opacity = 0.0;
+                                messageUserDiv.style.opacity = "0.0";
                             } else {
                                 lastHtml = html;
                             }
@@ -1216,10 +1224,10 @@ onstart.push(() => {
             chatDiv.appendChild(scrollingDiv);
             // Input Section
             if (cacheDragAndDropFile) {
-                var outer = div({ className: 'chatroominputdraganddropouter' });
-                var dragDropSection = div({ className: 'chatroominputdraganddrop' });
+                var outer = div({ className: 'chatroominputdraganddropouter', id:null });
+                var dragDropSection = div({ className: 'chatroominputdraganddrop', id:null });
                 var dragDropImage = document.createElement('img');
-                var close = div({ className: 'chatroominputdraganddropclose' });
+                var close = div({ className: 'chatroominputdraganddropclose', id:null });
                 dragDropImage.className = 'chatroominputdraganddropimg';
                 dragDropImage.setAttribute('alt', 'user submitted image');
                 chatDiv.appendChild(outer);
@@ -1230,9 +1238,13 @@ onstart.push(() => {
 
                 var reader = new FileReader();
                 reader.onload = function (event) {
-                    var result = event.target.result;
-                    var split = result.split(',');
-                    dragDropImage.src = result;
+                    if(event.target){
+                        var result = event.target.result;
+                        if(result && typeof(result) == "string"){
+                            var split = result.split(',');
+                            dragDropImage.src = result;
+                        }
+                    }
                 };
                 reader.readAsDataURL(cacheDragAndDropFile);
             }
@@ -1241,11 +1253,13 @@ onstart.push(() => {
             var input = document.createElement('form');
             var inputtext = document.createElement('textarea');
             inputtext.id = 'inputtext';
-            var lastinput = document.getElementById('inputtext');
+            var lastinput = <HTMLInputElement> document.getElementById('inputtext');
             if (lastinput) {
                 inputtext.value = lastinput.value;
-                inputtext.selectionStart = lastinput.selectionStart;
-                inputtext.selectionEnd = lastinput.selectionEnd;
+                if (lastinput.selectionStart != null && lastinput.selectionEnd !=null){
+                    inputtext.selectionStart = lastinput.selectionStart;
+                    inputtext.selectionEnd = lastinput.selectionEnd;
+                }
             }
             var inputbutton = document.createElement('input');
             inputbutton.setAttribute('type', 'image');
@@ -1257,18 +1271,20 @@ onstart.push(() => {
             inputbutton.classList = 'chatroominputbutton';
             inputbutton.setAttribute('value', 'Send');
 
-            inputtext.oninput = (event) => {
+            inputtext.oninput = (event : Event) => {
                 console.log(event);
+                const ievent = event as InputEvent;
+                if(ievent.target == null) { return; }
 
                 // We've written an @ and not already autocompleteing
-                if ((!autocompleteing) && event.inputType === 'insertText' && event.data === '@') {
+                if ((!autocompleteing) && ievent.inputType === 'insertText' && ievent.data === '@') {
                     autocompleteing = currentView;
-                    autocompletestart = event.target.selectionStart;
+                    autocompletestart = inputtext.selectionStart;
                     autocompleteselection = 0;
                     return;
                 }
                 // We've moved before the @. Stop autocompleteing
-                if (event.target.selectionStart < autocompletestart) {
+                if (inputtext.selectionStart < autocompletestart) {
                     autocompleteing = null;
                     autocompletestart = 0;
                     autocompleteselection = 0;
@@ -1276,8 +1292,8 @@ onstart.push(() => {
                 }
                 // We're currently autocompleteing
                 if (autocompleteing === currentView) {
-                    console.log("Caret : " + event.target.selectionStart + " End : " + event.target.value.length);
-                    var soFar = event.target.value.substring(autocompletestart, event.target.selectionStart);
+                    console.log("Caret : " + inputtext.selectionStart + " End : " + inputtext.value.length);
+                    var soFar = inputtext.value.substring(autocompletestart, inputtext.selectionStart);
                     console.log(soFar);
                     var userList = getUsersByPartialName(soFar);
                     updateAutocomplete(userList);
@@ -1285,7 +1301,7 @@ onstart.push(() => {
             }
             inputtext.onkeydown = (event) => {
                 if (autocompleteing === currentView) {
-                    var soFar = event.target.value.substring(autocompletestart, event.target.selectionStart - 1);
+                    var soFar = inputtext.value.substring(autocompletestart, inputtext.selectionStart - 1);
                     var userList = getUsersByPartialName(soFar);
                     if (event.key === ' ' || event.key === 'Enter' || event.key === 'Tab') {
                         autoComplete();
@@ -1318,8 +1334,8 @@ onstart.push(() => {
                     if (event.shiftKey) {
                         return true;
                     }
-                    event.preventDefault(null);
-                    input.onsubmit();
+                    event.preventDefault();
+                    //input.onsubmit(); //TODO Come back for enter-to-send
                     return false;
                 }
             }
@@ -1332,7 +1348,7 @@ onstart.push(() => {
                     reader.onload = function (event) {
                         // Result Preambles too much!
                         // Split it out
-                        var result = event.target.result;
+                        var result = input.result;
                         var split = result.split(',');
                         send({
                             type: 'message',
@@ -1382,8 +1398,8 @@ onstart.push(() => {
         var divid = div({ className: 'videodiv', id: 'videodiv-' + user.id });
         var video = document.createElement('video');
         video.setAttribute('poster', user.avatar);
-        video.setAttribute('autoPlay', true);
-        video.setAttribute('playsInline', true);
+        video.setAttribute('autoPlay', "true");
+        video.setAttribute('playsInline', "true");
         video.setAttribute('id', 'video-' + user.id);
         video.setAttribute('volume', getConfig('volume-' + user.id, 1.0));
 
@@ -1397,11 +1413,11 @@ onstart.push(() => {
         divid.appendChild(video);
         webcam_parent.appendChild(divid);
         if (user.livestate) {
-            var livediv = div({ className: 'livediv' });
+            var livediv = div({ className: 'livediv', id:null });
             if (amIWatching(user.id)) {
                 var livevideo = document.createElement('video');
-                livevideo.setAttribute('autoPlay', true);
-                livevideo.setAttribute('playsInline', true);
+                livevideo.setAttribute('autoPlay', "true");
+                livevideo.setAttribute('playsInline', "true");
                 livevideo.setAttribute('id', 'live-' + user.id);
                 if (user.id === iam) {
                     if (localLiveStream !== null) {
@@ -1480,7 +1496,7 @@ onstart.push(() => {
                 video.muted = true;
                 video.volume = 0.0;
                 video.classList.add('selfie');
-                if (el.settingFlipWebcam.checked) {
+                if ((<HTMLInputElement> el.settingFlipWebcam).checked) {
                     video.style.transform = 'rotateY(180deg)';
                 }
             }
@@ -1493,12 +1509,12 @@ onstart.push(() => {
                 canvas.id = 'blurcanvas';
                 divid.appendChild(canvas);
                 video.onloadeddata = () => {
-                    var options = {
+                    bodyPix.load({
+                        architecture: 'MobileNetV1',
                         multiplier: 0.75,
-                        stride: 32,
-                        quantBytes: 4
-                    }
-                    bodyPix.load(options)
+                        outputStride: 16,
+                        quantBytes: 4,
+                    })
                         .then(net => performBodyPix(net, canvas, video))
                         .catch(err => console.log(err));
 
@@ -1550,7 +1566,13 @@ onstart.push(() => {
 
     const autoComplete = () => {
         if (autocompleteing === currentView) {
-            var inputtext = document.getElementById('inputtext');
+            var inputtext = <HTMLInputElement> document.getElementById('inputtext');
+            if (inputtext == null) {
+                return;
+            }
+            if (!inputtext.selectionStart){
+                return;
+            }
             var soFar = inputtext.value.substring(autocompletestart, inputtext.selectionStart);
             var userList = getUsersByPartialName(soFar);
 
@@ -1573,17 +1595,20 @@ onstart.push(() => {
     const updateAutocomplete = (userList) => {
         var count = 0;
         var ac = document.getElementById('autocomplete')
+        if (ac == null){
+            return;
+        }
         var autocompleteinner = div({ className: 'autocompleteinner', id: 'autocompleteinner' });
         if (userList === null) {
             ac.innerText = '';
             return;
         }
         userList.forEach(user => {
-            var d = div({ className: 'autocompleteentry' });
+            var d = div({ className: 'autocompleteentry', id: null });
             if (count === autocompleteselection) {
                 d.classList.add('selected');
             }
-            var name = div({ className: 'autocompleteentrytext' });
+            var name = div({ className: 'autocompleteentrytext', id:null });
             var img = document.createElement('img');
             img.src = user.avatar;
             img.className = 'userimg';
@@ -1596,12 +1621,16 @@ onstart.push(() => {
                 return () => {
                     autocompleteselection = count2;
                     var aci = document.getElementById('autocompleteinner');
+                    if(aci==null){
+                        return;
+                    }
                     var c = 0;
                     aci.childNodes.forEach(e => {
+                        const e2 = <HTMLElement> e;
                         if (c == count2) {
-                            e.classList.add('selected');
+                            e2.classList.add('selected');
                         } else {
-                            e.classList.remove('selected');
+                            e2.classList.remove('selected');
                         }
                         c++;
                     });
@@ -1624,9 +1653,9 @@ onstart.push(() => {
             stopStreaming();
             if (roomid !== currentVoiceRoom) {
                 // From a different room, close connections
-                Object.values(peerConnection).forEach((pc) => {
+                for(const pc of peerConnection){
                     pc.close();
-                });
+                }
             }
             // Set new voice room
             currentVoiceRoom = roomid;
@@ -1635,9 +1664,9 @@ onstart.push(() => {
         if (!room) {
             // Close connections
             stopStreaming();
-            Object.values(peerConnection).forEach((pc) => {
+            for (const pc of peerConnection){
                 pc.close();
-            });
+            }
             currentVoiceRoom = null;
         }
         // Set view
@@ -1666,14 +1695,17 @@ onstart.push(() => {
     }
 
     loadMoreText = () => {
-        var list = Object.keys(messagelist[currentView]).sort(function (a, b) { return ((a * 1) - (b * 1)) });
-        var onebefore = list[0] - 1;
+        var list = Object.keys(messagelist[currentView]).sort(function (a, b) { return ((+a) - (+b)) });
+        var onebefore = (+list[0]) - 1;
         if (onebefore >= 0) {
             send({ type: 'getmessages', roomid: currentView, segment: onebefore });
         }
 
         // If this was caused by putting scroll to top then reposition so we don't loop on it
         var chatscroller = document.querySelector('#chatscroller');
+        if (chatscroller == null){
+            return;
+        }
         if (chatscroller.scrollTop < 50) {
             chatscroller.scrollTop = 50;
         }
@@ -1692,7 +1724,8 @@ onstart.push(() => {
                     }
                 ]
             });
-            pc.userid = userid;
+            
+            (pc as any).userid = userid;
             replacePeerMedia(pc);
             pc.onicecandidate = (event) => { handleIceCandidate(userid, event) };
             pc.ontrack = (event) => { handleTrack(userid, event) };
@@ -1764,8 +1797,8 @@ onstart.push(() => {
     }
 
     const handleTrack = (userid, event) => {
-        var ele = document.getElementById('video-' + userid);
-        var ele2 = document.getElementById('live-' + userid);
+        var ele = <HTMLVideoElement> document.getElementById('video-' + userid);
+        var ele2 = <HTMLVideoElement> document.getElementById('live-' + userid);
 
         var stream = event.streams[0];
 
@@ -1812,7 +1845,7 @@ onstart.push(() => {
 
     const cleanupStream = (userid) => {
         console.log("Removing peer data " + userid);
-        var ele = document.getElementById('video-' + userid);
+        var ele = <HTMLVideoElement> document.getElementById('video-' + userid);
         if (peerConnection[userid]) {
             var pc = peerConnection[userid];
             pc.ontrack = null;
@@ -1823,7 +1856,9 @@ onstart.push(() => {
             pc.close();
         }
         if (ele && ele.srcObject) {
-            ele.srcObject.getTracks().forEach(track => track.stop());
+            if ('getTracks' in ele.srcObject){
+                ele.srcObject.getTracks().forEach(track => track.stop());
+            }
             ele.srcObject = null;
         }
 
@@ -1834,6 +1869,7 @@ onstart.push(() => {
     const startCall = (userid) => {
         // Awful race condition if both ends attempt to call at the same time
         // Only one needs to call and we have unique IDs!
+        if(iam==null){return;}
         if (iam < userid) {
             send({ type: 'video', payload: { type: 'callme' }, touserid: userid, fromuserid: iam });
             return;
@@ -1848,6 +1884,9 @@ onstart.push(() => {
         var height = 25;
         const canvas = Object.assign(document.createElement("canvas"), { width, height });
         const ctx = canvas.getContext('2d');
+        if(ctx == null){
+            return;
+        }
         ctx.fillRect(0, 0, width, height);
         const p = ctx.getImageData(0, 0, width, height);
         requestAnimationFrame(function draw() {
@@ -1867,7 +1906,7 @@ onstart.push(() => {
         navigator.mediaDevices
             .getUserMedia(createConstraints())
             .then(stream => {
-                var ele = document.getElementById('video-' + iam);
+                var ele = <HTMLVideoElement> document.getElementById('video-' + iam);
                 if (ele) {
                     ele.srcObject = null;
                     ele.srcObject = stream;
@@ -1894,9 +1933,9 @@ onstart.push(() => {
     }
 
     replaceAllPeerMedia = () => {
-        Object.values(peerConnection).forEach((pc) => {
+        for(const pc of peerConnection){
             replacePeerMedia(pc);
-        });
+        }
     }
 
     const replacePeerMedia = (pc) => {
@@ -1904,10 +1943,10 @@ onstart.push(() => {
             return;
         }
         var senders = pc.getSenders().length;
-        var sources = []
-        var tracks = [];
+        var sources :any[] = []
+        var tracks :any[] = [];
 
-        var blurCanvas = document.getElementById('blurcanvas');
+        var blurCanvas = <HTMLCanvasElement>document.getElementById('blurcanvas');
         if (!localWebcamStream) {
             console.log('Local Webcam Stream null : cannot replace peer media');
             return;
@@ -1922,8 +1961,10 @@ onstart.push(() => {
             tracks.push(localWebcamStream.getVideoTracks()[0]);
         } else {
             var whiteNoiseStream = whiteNoise();
-            whiteNoiseStream.getTracks()[0].enabled = false;
-            tracks.push(whiteNoiseStream.getTracks()[0]);
+            if(whiteNoiseStream){
+                whiteNoiseStream.getTracks()[0].enabled = false;
+                tracks.push(whiteNoiseStream.getTracks()[0]);
+            }
         }
         tracks.push(localFilteredWebcamStream.getAudioTracks()[0]);
 
@@ -1933,8 +1974,10 @@ onstart.push(() => {
             tracks.push(localLiveStream.getVideoTracks()[0]);
         } else {
             var whiteNoiseStream = whiteNoise();
-            sources.push(whiteNoiseStream);
-            tracks.push(whiteNoiseStream.getTracks()[0]);
+            if(whiteNoiseStream){
+                sources.push(whiteNoiseStream);
+                tracks.push(whiteNoiseStream.getTracks()[0]);
+            }
         }
 
         if (senders === 3) {
@@ -2007,7 +2050,7 @@ onstart.push(() => {
             for (const source of sources) {
                 console.log(source);
 
-                var container = div({ className: 'appscreen' });
+                var container = div({ className: 'appscreen', id:null });
                 var text = document.createElement('nobr');
                 text.innerText = source.name;
                 container.appendChild(text);
@@ -2030,12 +2073,8 @@ onstart.push(() => {
                     navigator.mediaDevices
                         .getUserMedia({
                             video: {
-                                mandatory: {
-                                    maxHeight: getConfig('streamresolution', 1080),
-                                    minHeight: getConfig('streamresolution', 1080),
-                                    chromeMediaSource: 'desktop',
-                                    chromeMediaSourceId: source.id
-                                }
+                                height: getConfig('streamresolution', 1080),
+                                displaySurface: 'window',
                             },
                             audio: false
                         })
@@ -2132,9 +2171,9 @@ onstart.push(() => {
             channelCount: 1,
             echoCancellation: getConfig('echocancel', true),
             noiseSuppression: getConfig('noisesupress', true),
-            sampleRate: getConfig('audiobitrate', 96) * 1000
+            sampleRate: getConfig('audiobitrate', 96) * 1000,
+            deviceId: deviceId
         };
-        if (deviceId) { a.deviceId = deviceId };
         return a;
     }
     const createVideoConstraints = () => {
@@ -2147,9 +2186,9 @@ onstart.push(() => {
         var a = {
             width: { min: 640, ideal: 1280 },
             height: { min: 400, ideal: 720 },
-            framerate: 30
+            framerate: 30,
+            deviceId: deviceId
         };
-        if (deviceId) { a.deviceId = deviceId; }
         return a;
     }
     const createConstraints = () => {
@@ -2194,9 +2233,9 @@ onstart.push(() => {
         theme = themeName;
         var oldlinks = document.getElementsByTagName('link');
         var head = document.getElementsByTagName('head')[0];
-        Object.values(oldlinks).forEach(link => {
+        for(const link of oldlinks){
             head.removeChild(link);
-        });
+        }
 
         var newlink = document.createElement('link');
         newlink.setAttribute('rel', 'stylesheet');
@@ -2206,21 +2245,20 @@ onstart.push(() => {
 
         // Change IMGs!
         var oldimg = document.getElementsByTagName('img');
-        Object.values(oldimg).forEach(img => {
+        for(const img of oldimg){
             if ('src' in img.dataset) {
                 img.src = 'img/' + theme + '/' + img.dataset.src;
             }
-        });
+        }
         // And... Image inputs?
-        var oldimg = document.getElementsByTagName('input');
-        Object.values(oldimg).forEach(img => {
+        var oldimg2 = document.getElementsByTagName('input');
+        for(const img of oldimg2){
             if (img.getAttribute('type') === 'image') {
                 if ('src' in img.dataset) {
                     img.src = 'img/' + theme + '/' + img.dataset.src;
                 }
             }
-        });
-
+        }
     }
 
 
@@ -2275,7 +2313,7 @@ onstart.push(() => {
     }
     el.inviteuserform.onsubmit = (e) => {
         e.preventDefault();
-        var group = el.inviteusergroup.value;
+        var group = (<HTMLInputElement>el.inviteusergroup).value;
         if (group) {
             send({ type: 'invite', groupName: group })
         } else {

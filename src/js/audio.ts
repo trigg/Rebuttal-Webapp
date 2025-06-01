@@ -14,7 +14,7 @@ onstart.push(() => {
 
     playSound = (sound) => {
         var s = soundlist[sound];
-        if (s) {
+        if (s != null) {
             console.log("Playing sound for '" + sound + "' at volume : " + sfxVolume);
             s.volume = sfxVolume;
             s.play().catch((err) => { });

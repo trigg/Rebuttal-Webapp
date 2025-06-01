@@ -8,7 +8,7 @@ var onstart = [() => {
 
     var allElements = document.querySelectorAll('*[id]');
     allElements.forEach((element) => {
-        el[element.id] = element;
+        el[element.id] = <HTMLElement>element;
     });
 
 }];

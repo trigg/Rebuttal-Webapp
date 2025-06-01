@@ -5,7 +5,7 @@
       "target": "es2015",
       "module": "es2015",
       "strict": true,
-      "noImplicitAny": true,
+      "noImplicitAny": false,
       "moduleResolution": "node",
       "sourceMap": false,
       "outDir": "dist",

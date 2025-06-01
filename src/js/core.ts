@@ -1,62 +1,74 @@
 'use strict';
 
+interface ElementCollection {
+    [key:string]: HTMLElement
+}
+
+interface User {
+    [key:string]: any
+}
+
+interface Room {
+    [key:string]: any
+}
+
 /**
  * List of parts that need to be globally passed about
  */
 // Websocket
-var ws = null;
+var ws : WebSocket|null = null;
 // State of client
-var roomlist = [];
-var userlist = [];
-var messagelist = [];
-var contextmenus = [];
+var roomlist : Room[] = [];
+var userlist : User[] = [];
+var messagelist : any[] = [];
+var contextmenus : any[] = [];
 var currentView = '';
-var currentVoiceRoom = '';
-var iam = null;
-var localWebcamStream = null;
-var localFilteredWebcamStream = null;
-var localLiveStream = null;
-var remoteWebcamStream = {};
-var remoteLiveStream = {};
-var peerConnection = {};
-var isWatching = {};
-var amWatching = {};
-var el = {};
+var currentVoiceRoom : string | null = '';
+var iam : string|null = null;
+var localWebcamStream : any = null;
+var localFilteredWebcamStream : any = null;
+var localLiveStream: any = null;
+var remoteWebcamStream :any = {};
+var remoteLiveStream :any = {};
+var peerConnection :any = {};
+var isWatching :any = {};
+var amWatching :any = {};
+var el : ElementCollection = {};
 var isWebcam = false;
 var isScreenShare = false;
 var isMute = false;
 var isSettings = false;
 var isServer = false;
 var lastChatYPos = 0;
-var cacheDragAndDropFile = null;
-var cacheUserTagged = [];
-var sharedVideo = null;
-var permissions = [];
-var groups = [];
-var signUpCode = null;
-var autocompleteing = null;
+var cacheDragAndDropFile :any = null;
+var cacheUserTagged :any[] = [];
+var sharedVideo :any = null;
+var permissions :any[] = [];
+var groups : any[] = [];
+var signUpCode :any = null;
+var autocompleteing :any = null;
 var autocompletestart = 0;
 var autocompleteselection = 0;
 var electronMode = false;
-var customUrl = null;
-var customUsername = null;
-var customPassword = null;
+var customUrl :any = null;
+var customUsername :any = null;
+var customPassword : any= null;
 var overlayEnable = true;
 var noWebcamFound = false;
 var sfxVolume = 0.5;
 var detectTalking = true;
 var detectTalkingLevel = 0.05;
-var fullscreenUserID = null;
-var fullscreenParent = null;
-var fullscreenElement = null;
+var fullscreenUserID :any = null;
+var fullscreenParent :any = null;
+var fullscreenElement :any = null;
 var blurUser = true;
 var blurValue = 5;
 var blurEdgeValue = 2;
 // Browser storage
 
-var theme = null;
-var soundtheme = null;
-var font = null;
+var theme : any = null;
+var soundtheme : any = null;
+var font :any = null;
 var themelist = [
     {
         "id": 'accounting',
@@ -74,7 +86,7 @@ var themelist = [
         "description": "A light hearted theme for those with a weak disposition"
     }
 ];
-var soundlist = [];
+var soundlist :any[] = [];
 
 // Functions to allow to be used in console
 var markupParser;
@@ -100,23 +112,22 @@ var replaceAllPeerMedia;
 
 
 getUserByID = (id) => {
-    var ret = null;
-    userlist.forEach(user => {
+    for(const user of userlist){
         if (user.id == id) {
-            ret = user;
+            return user;
         }
-    })
-    return ret;
+    }
+    return null;
 }
 
 getUsersByPartialName = (nameFrag) => {
-    var ret = [];
-    userlist.forEach(user => {
+    var ret :User[] = [];
+    for(const user of userlist){
         if (user.name.toLowerCase().indexOf(nameFrag.toLowerCase()) == 0) {
             console.log(nameFrag + " matches " + user.name);
             ret.push(user);
         }
-    });
+    };
     return ret;
 }
 

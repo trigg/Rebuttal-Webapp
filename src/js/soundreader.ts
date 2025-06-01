@@ -1,12 +1,13 @@
 'use strict';
-function SoundReader(context) {
+
+function SoundReader(this: any, context) {
     this.context = context;
     this.talked = false;
     this.peak = 0.0;
     this.script = context.createScriptProcessor(2048, 1, 1);
     this.dest = context.createMediaStreamDestination();
     var ref = this;
-    this.script.onaudioprocess = function (event) {
+    this.script.onaudioprocess = (event) => {
         const input = event.inputBuffer.getChannelData(0);
         var output = event.outputBuffer.getChannelData(0);
         var talked = false;

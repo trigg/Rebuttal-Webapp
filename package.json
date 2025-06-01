@@ -7,5 +7,16 @@
   "license": "GPL-3.0-or-later",
   "devDependencies": {
     "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "sass": "cd public/css && sass accounting.scss:accounting.css aspiringwebdev.scss:aspiringwebdev.css bubblegum.scss:bubblegum.css",
+    "build": "./node_modules/.bin/tsc"
+  },
+  "dependencies": {
+    "@tensorflow-models/body-pix": "^2.2.1",
+    "@tensorflow/tfjs-backend-webgl": "^4.22.0",
+    "@tensorflow/tfjs-converter": "^4.22.0",
+    "@tensorflow/tfjs-core": "^4.22.0",
+    "@types/showdown": "^2.0.6"
   }
 }

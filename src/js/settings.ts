@@ -21,7 +21,7 @@ onstart.push(() => {
     }
 
     // Custom Selects
-    const customSelect = function () {
+    const customSelect = function (this: any) {
         this.querySelector('.custom-select').classList.toggle('open');
     }
 
@@ -29,8 +29,8 @@ onstart.push(() => {
         sel.addEventListener('click', customSelect);
     }));
 
-    const dropDownCallback = function () {
-        var lastselected = this.parentNode.querySelector('.custom-option.selected');
+    const dropDownCallback = function (this: any) {
+        const lastselected = this.parentNode.querySelector('.custom-option.selected');
         if (lastselected) { lastselected.classList.remove('selected'); }
         this.classList.add('selected');
         this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
@@ -68,7 +68,7 @@ onstart.push(() => {
     const setCustomSelect = function (ele, option) {
         ele.querySelectorAll(".custom-option").forEach(element => {
             if (element.dataset.value === option) {
-                var lastselected = element.parentNode.querySelector('.custom-option.selected');
+                const lastselected = element.parentNode.querySelector('.custom-option.selected');
                 if (lastselected) {
                     lastselected.classList.remove('selected');
                 }
@@ -84,11 +84,11 @@ onstart.push(() => {
     }
 
     const populateCustomSelect = function (ele, opts) {
-        var innerlist = ele.querySelector('.custom-options');
+        const innerlist = ele.querySelector('.custom-options');
 
         opts.forEach(opt => {
 
-            var span = document.createElement('span');
+            const span = document.createElement('span');
             span.className = 'custom-option';
             span.dataset.value = opt.value;
             span.innerText = opt.text;
@@ -108,7 +108,7 @@ onstart.push(() => {
         if (!themelist) { return; }
         el.settingsthemelist.innerText = '';
         themelist.forEach(theme => {
-            var span = document.createElement('span');
+            const span = document.createElement('span');
             span.className = 'custom-option';
             span.dataset.value = theme.id;
             span.innerText = theme.name;
@@ -120,29 +120,45 @@ onstart.push(() => {
 
     // Settings Tabs
 
-    const switchToSettingsPane = (pane) => {
-        el.settings.querySelectorAll('.settingspane').forEach(pane => {
-            pane.style.display = 'none';
+    const switchToSettingsPane = (pane : string | undefined) => {
+        if(!pane){
+            return;
+        }
+        el.settings.querySelectorAll('.settingspane').forEach((pane : Element) => {
+            const htmlpane = pane as HTMLElement;
+            htmlpane.style.display = 'none';
         });
         el[pane].style.display = 'block';
     }
 
-    const switchToServerPane = (pane) => {
-        el.server.querySelectorAll('.serverpane').forEach(pane => {
-            pane.style.display = 'none';
+    const switchToServerPane = (pane: string | undefined) => {
+        if(!pane){
+            return;
+        }
+        el.server.querySelectorAll('.serverpane').forEach((pane:Element) => {
+            const htmlpane = pane as HTMLElement;
+            htmlpane.style.display = 'none';
         });
         el[pane].style.display = 'block';
     }
 
     el.settings.querySelectorAll('.settingstab').forEach(tab => {
-        tab.onclick = (event) => {
-            switchToSettingsPane(event.target.dataset.link);
+        const htmltab = tab as HTMLElement;
+        htmltab.onclick = (event) => {
+            if (!(event.target instanceof HTMLButtonElement)) {
+                return;
+            }
+            switchToSettingsPane(event?.target?.dataset?.link);
         }
     })
 
     el.server.querySelectorAll('.servertab').forEach(tab => {
-        tab.onclick = (event) => {
-            switchToServerPane(event.target.dataset.link);
+        const htmltab = tab as HTMLElement;
+        htmltab.onclick = (event) => {
+            if (!(event.target instanceof HTMLButtonElement)) {
+                return;
+            }
+            switchToServerPane(event?.target?.dataset?.link);
         }
     })
 
@@ -174,8 +190,8 @@ onstart.push(() => {
             }
 
         })
-        var micId = getConfig('microphonedevice', 'none');
-        var cameraId = getConfig('cameradevice', 'none');
+        const micId = getConfig('microphonedevice', 'none');
+        const cameraId = getConfig('cameradevice', 'none');
         setCustomSelect(el.settingscamdevice, cameraId);
         setCustomSelect(el.settingsmicdevice, micId);
 
@@ -196,7 +212,7 @@ onstart.push(() => {
                     break;
             }
         })
-        var outputId = getConfig('audiodevice', 'none');
+        const outputId = getConfig('audiodevice', 'none');
         setCustomSelect(el.settingsaudio, outputId);
     }
 
@@ -223,20 +239,23 @@ onstart.push(() => {
 
     el.createroomform.onsubmit = (event) => {
         event.preventDefault();
-        var name = el.createroomname.value;
-        el.createroomname.value = '';
-        var type = el.createroomtype.value;
+        const crn = (el.createroomname as HTMLInputElement);
+        const name = crn.value;
+        crn.value = '';
+        const type = (el.createroomtype as HTMLSelectElement).value;
         send({ type: 'createroom', roomName: name, roomType: type });
         return false;
     };
 
     el.createuserform.onsubmit = (event) => {
         event.preventDefault();
-        var name = el.createusername.value;
-        el.createusername.value = "";
-        var email = el.createuseremail.value;
-        el.createuseremail.value = "";
-        var group = el.createusergroup.value;
+        const cun = el.createusername as HTMLInputElement;
+        const name = cun.value;
+        cun.value = "";
+        const cue = el.createuseremail as HTMLInputElement;
+        const email = cue.value;
+        cue.value = "";
+        const group = (el.createusergroup as HTMLSelectElement).value;
         console.log(name + " " + email + " " + group);
         send({ type: 'createuser', userName: name, groupName: group, email: email });
         return false;
@@ -244,7 +263,7 @@ onstart.push(() => {
 
     // Options
     setupCheckbox('fliplocal', el.settingFlipWebcam, function (event) {
-        var myselfie = document.querySelector('.selfie');
+        const myselfie = document.querySelector('.selfie') as HTMLElement;
         if (myselfie) {
             if (event.target.checked) {
                 myselfie.style.transform = 'rotateY(180deg)';
@@ -258,13 +277,13 @@ onstart.push(() => {
     setupCheckbox('noisesupress', el.settingNoiseSupress, () => { startLocalDevices(); });
     setupCheckbox('echocancel', el.settingEchoCancellation, () => { startLocalDevices(); });
     setupCheckbox('hidedupename', el.settingsappearancehidedupename, () => { populateRoom(); });
-    setupCheckbox('voicetrigger', el.settingVoiceTrigger, () => { detectTalking = el.settingVoiceTrigger.value });
+    setupCheckbox('voicetrigger', el.settingVoiceTrigger, () => { detectTalking = (<HTMLInputElement>el.settingVoiceTrigger).checked });
 
     setupSlider('audiobitrate', 64, el.settingbitrate, el.settingbitrateoutput, () => { startLocalDevices(); });
     setupSlider('streamresolution', 1080, el.settingsstreamresolution, el.settingsstreamresolutionoutput, () => { if (localLiveStream) { startLocalDevices(); } });
     setupSlider('streamrate', 30, el.settingsstreamrate, el.settingsstreamrateoutput, () => { if (localLiveStream) { startLocalDevices(); } });
-    setupSlider('sfxvolume', 50, el.settingssfxvolume, el.settingssfxvolumeoutput, () => { sfxVolume = el.settingssfxvolume.value / 100; setConfig('sfxvolume', el.settingssfxvolume.value / 100) })
-    setupSlider('voicetriggerlevel', 0.05, el.settingsvoicetriggervolume, el.settingsvoicetriggervolumeoutput, () => { detectTalkingLevel = el.settingsvoicetriggervolume.value });
+    setupSlider('sfxvolume', 50, el.settingssfxvolume, el.settingssfxvolumeoutput, () => { sfxVolume = +(<HTMLInputElement>el.settingssfxvolume).value / 100; setConfig('sfxvolume', +(<HTMLInputElement>el.settingssfxvolume).value / 100) })
+    setupSlider('voicetriggerlevel', 0.05, el.settingsvoicetriggervolume, el.settingsvoicetriggervolumeoutput, () => { detectTalkingLevel = +(<HTMLInputElement>el.settingsvoicetriggervolume).value });
 
     el.settingbutton.onclick = toggleSettings;
     el.settingsclose.onclick = toggleSettings;

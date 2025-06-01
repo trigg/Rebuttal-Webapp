@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "name": "rebuttal-webapp",
+  "version": "1.0.0",
+  "main": "main.js",
+  "author": "trigg <triggerhapp@gmail.com>",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

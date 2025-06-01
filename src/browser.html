@@ -1,0 +1,28 @@
+<html>
+
+<head>
+    <title>Login to a server</title>
+    <script src='browser.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
+</head>
+
+<body class='browser'>
+    <div class='browserpane'>
+        <div class='browsertabs' id='browsertabs'>
+            <div class='browsertabbuttons tab' id='browsertabbuttons'>
+                Choose Server
+            </div>
+            <div class='browsertabform tab' id='browsertabform'>Add New Server</div>
+        </div>
+        <div class='serverbuttons' id='serverbuttons'></div>
+        <div class='serverform' id='serverformdiv'>
+            <form id='serverform'>
+                <input type='text' placeholder="Server Address" id='serverip' />
+                <div id='serverformmsg'></div>
+                <input type='submit' value='Add Server' />
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

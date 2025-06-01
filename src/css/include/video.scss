@@ -1,0 +1,118 @@
+.appLiveRoom{
+    flex-grow: 0;
+    display: flex;
+    overflow-y: hidden;
+    overflow-x: auto;
+    flex-shrink: 0;
+    justify-content: space-around;
+    color: white;
+}
+.appVoiceRoom{
+    display:flex;
+    flex-direction: row;
+    overflow-y: auto;
+    overflow-x: hidden;
+    justify-content: center;
+    align-items: center;
+    height:100%;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    align-content: center;
+}
+.controls {
+    position: relative;
+}
+.controlsinner{
+    position: absolute;
+    display:flex;
+    flex-direction: row;
+
+}
+.chatWebcamOverlay {
+    position: absolute;
+}
+.chatWebcamOverlay .videodiv{
+    position: relative;
+}
+.videodiv, .livediv{
+    width:444px;
+    height:250px;
+    background-color: black;
+    border: 3px darkgray solid;
+    border-radius: 15px;
+    position: relative;
+    flex-direction: column;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+.videodiv::after, .livediv::after{
+    content: " ";
+    position: absolute;
+    z-index: 1;
+    border-radius: 15px;
+    border: 3px darkgray solid;
+    top: -3px;
+    bottom: -3px;
+    left: -3px;
+    right: -3px;
+}
+div.videodiv.videodivtalking::after{
+    border: 3px $highlight solid;
+}
+video{
+    width:100%;
+    height:100%;
+
+}
+.livelabelouter{
+    width: 100%;
+    height: 100%;
+    color: white;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+.videometer{
+    position: absolute;
+}
+.videonovideo{
+    position: absolute;
+    right:0px;
+    top:0px;
+    filter: invert(27%) sepia(85%) saturate(7203%) hue-rotate(358deg) brightness(98%) contrast(127%);
+    height:$iconsize;
+    width:$iconsize;
+}
+.videonoaudio{
+    position: absolute;
+    right:0px;
+    height:$iconsize;
+    top: $iconsize;
+    width: $iconsize;
+    filter: invert(27%) sepia(85%) saturate(7203%) hue-rotate(358deg) brightness(98%) contrast(127%);
+}
+.videonoconn{
+    position: absolute;
+    left:0px;
+    top: 0px;
+    height: $iconsize;
+    width: $iconsize;
+}
+
+.fullscreenpopup{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 2;
+    background: #000c;
+}
+
+canvas.blurcanvas {
+    width: 444px;
+    height:250px;
+}

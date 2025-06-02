@@ -1,3 +1,4 @@
+@use "../theme";
 .appLiveRoom{
     flex-grow: 0;
     display: flex;
@@ -58,7 +59,7 @@
     right: -3px;
 }
 div.videodiv.videodivtalking::after{
-    border: 3px $highlight solid;
+    border: 3px theme.$highlight solid;
 }
 video{
     width:100%;
@@ -82,23 +83,23 @@ video{
     right:0px;
     top:0px;
     filter: invert(27%) sepia(85%) saturate(7203%) hue-rotate(358deg) brightness(98%) contrast(127%);
-    height:$iconsize;
-    width:$iconsize;
+    height:theme.$iconsize;
+    width:theme.$iconsize;
 }
 .videonoaudio{
     position: absolute;
     right:0px;
-    height:$iconsize;
-    top: $iconsize;
-    width: $iconsize;
+    height:theme.$iconsize;
+    top: theme.$iconsize;
+    width: theme.$iconsize;
     filter: invert(27%) sepia(85%) saturate(7203%) hue-rotate(358deg) brightness(98%) contrast(127%);
 }
 .videonoconn{
     position: absolute;
     left:0px;
     top: 0px;
-    height: $iconsize;
-    width: $iconsize;
+    height: theme.$iconsize;
+    width: theme.$iconsize;
 }
 
 .fullscreenpopup{

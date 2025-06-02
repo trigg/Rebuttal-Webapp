@@ -1,3 +1,4 @@
+@use "../theme";
 .chatroom{
     display:flex;
     flex-direction: column;
@@ -22,7 +23,7 @@
 .chatroominputtext{
     flex-grow:1;
     border:unset;
-    background-color: $col2;
+    background-color: theme.$col2;
     resize:none;
     outline: none;   
 }
@@ -44,7 +45,7 @@
     align-items: center;
 }
 .message.tagged{
-    background-color: $col1;
+    background-color: theme.$col1;
 }
 .messageuser{
     font-weight: bold;
@@ -59,7 +60,7 @@
 .messageurl{
     border-radius: 10px;
     padding: 5px;
-    border: 1px $col1 solid;
+    border: 1px theme.$col1 solid;
 }
 .chatroominputdraganddropouter{
     display:flex;
@@ -87,7 +88,7 @@
     bottom:0px;
     z-index: 2;
     border-top: 2px solid #394a6d;
-    background-color: $col2;
+    background-color: theme.$col2;
     width:100%;
 }
 .autocompleteentry{
@@ -96,5 +97,5 @@
     height:24px;
 }
 .autocompleteentry.selected{
-    background-color: $col1;
+    background-color: theme.$col1;
 }

@@ -1,4 +1,4 @@
-
+@use "../theme";
 .popupsettings, .popupserver, .popupinvite, .popupcustomouter, .popupscreenshare{
     display:none;
     position: relative;
@@ -13,7 +13,7 @@
 .settings, .server, .invite, .popupcustom{
     min-width: 400px;
     min-height: 600px;
-    background-color: $col1;
+    background-color: theme.$col1;
     border-radius: 50px;
     padding: 40px;
     display: flex;

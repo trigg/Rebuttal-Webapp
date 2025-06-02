@@ -1,3 +1,5 @@
+@use "../theme";
+
 *, ::after, ::before {
     box-sizing: border-box;
 }
@@ -37,8 +39,8 @@ html {
 
 .roomlist, .userlist{
     flex-grow:0;
-    background-color: $col1;
-    width:calc(6 * #{$iconsize});
+    background-color: theme.$col1;
+    width:calc(6 * #{theme.$iconsize});
     
     overflow-y: auto;
     overflow-x: hidden;
@@ -48,7 +50,7 @@ html {
 
 .coreview {
     flex-grow: 1;
-    background-color: $col2;
+    background-color: theme.$col2;
     min-width:60vw;
 }
 .appContainer{
@@ -73,10 +75,10 @@ html {
     display:flex;
     justify-content: center;
     align-items: center;
-    background-color: $col2;
+    background-color: theme.$col2;
 }
 .login {
-    background-color: $col1;
+    background-color: theme.$col1;
     display:flex;
     flex-direction: column;
     padding:40px;
@@ -85,20 +87,20 @@ html {
     align-items:center;
 }
 .useronline{
-    color:$highlight;
+    color:theme.$highlight;
 }
 .usertalking{
-    color:$highlight;
+    color:theme.$highlight;
 }
 .roomimg {
-    width: $iconsize;
-    height: $iconsize;
+    width: theme.$iconsize;
+    height: theme.$iconsize;
     border:0px;
 
 }
 .userimg{
-    width: $iconsize;
-    height: $iconsize;
+    width: theme.$iconsize;
+    height: theme.$iconsize;
     border: 0px;
     border-radius: 12px;
 }
@@ -136,5 +138,5 @@ code{
     color:greenyellow;
 }
 .button {
-    width: $iconsize;
+    width: theme.$iconsize;
 }

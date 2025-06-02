@@ -1,22 +1,22 @@
+@use "theme" with (
+    $col1: black,
+    $col2: black,
+    $highlight: blue,
+    $iconsize: 24px,
+);
 
-$col1: black;
-$col2: black;
-$highlight: blue;
-$iconsize: 24px;
+@use "include/app";
+@use "include/browser";
+@use "include/custom-select";
+@use "include/settings";
+@use "include/text";
+@use "include/video";
+
 
 body {
     font-family: monospace;
     color:white;
 }
-
-
-
-@import "include/app.scss";
-@import "include/settings.scss";
-@import "include/video.scss";
-@import "include/custom-select.scss";
-@import "include/text.scss";
-@import "include/browser.scss";
 
 .userlist {
     border-left: 1px solid #394a6d;

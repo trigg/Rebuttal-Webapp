@@ -1,12 +1,13 @@
+@use "../theme";
 .browser{
     display:flex;
-    background-color: $col1;
+    background-color: theme.$col1;
     align-items: center;
     justify-content: center;
 }
 .browserpane{
     display:flex;
-    background-color: $col2;
+    background-color: theme.$col2;
     border:0px transparent solid;
     border-radius: 20px;
     flex-direction: column;

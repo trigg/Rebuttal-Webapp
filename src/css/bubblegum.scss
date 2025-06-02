@@ -1,19 +1,21 @@
+@use "theme" with (
+$col1: lavender,
+$col2: lightcyan,
+$highlight: lightpink,
+$iconsize: 32px,
+);
 
-$col1: lavender;
-$col2: lightcyan;
-$highlight: lightpink;
-$iconsize: 32px;
+@use "include/app";
+@use "include/browser";
+@use "include/custom-select";
+@use "include/settings";
+@use "include/text";
+@use "include/video";
+
 
 body {
     font-family: 'Brush Script MT', cursive;
 }
-
-@import "include/app.scss";
-@import "include/settings.scss";
-@import "include/video.scss";
-@import "include/custom-select.scss";
-@import "include/text.scss";
-@import "include/browser.scss";
 
 .room:hover{
     background-color: lightpink;

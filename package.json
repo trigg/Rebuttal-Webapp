@@ -2,7 +2,7 @@
   "type": "module",
   "name": "rebuttal-webapp",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "dist/js/main.js",
   "author": "trigg <triggerhapp@gmail.com>",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
@@ -12,7 +12,7 @@
     "typescript": "^5.8.3"
   },
   "scripts": {
-    "build": "sass src:dist && cp -r src/img dist/img && cp -r src/snd dist/snd && ./node_modules/.bin/tsc"
+    "build": "sass src:dist && cp -r src/img dist/img && cp -r src/snd dist/snd && cp -r src/*.html dist/ && ./node_modules/.bin/tsc"
   },
   "dependencies": {
     "@tensorflow-models/body-pix": "^2.2.1",

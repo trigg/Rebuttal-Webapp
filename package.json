@@ -8,6 +8,7 @@
   "devDependencies": {
     "@types/node": "^22.15.29",
     "@types/webpack": "^5.28.5",
+    "copy-webpack-plugin": "^13.0.0",
     "sass-migrator": "^2.3.2",
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
@@ -17,7 +18,7 @@
     "webpack-dev-server": "^5.2.1"
   },
   "scripts": {
-    "build": "sass src:dist && cp -r src/img dist/img && cp -r src/snd dist/snd && cp -r src/*.html dist/ && ./node_modules/.bin/tsc"
+    "build": "sass src:dist && ./node_modules/.bin/webpack"
   },
   "dependencies": {
     "@tensorflow-models/body-pix": "^2.2.1",

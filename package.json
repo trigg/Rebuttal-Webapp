@@ -7,9 +7,14 @@
   "license": "GPL-3.0-or-later",
   "devDependencies": {
     "@types/node": "^22.15.29",
+    "@types/webpack": "^5.28.5",
     "sass-migrator": "^2.3.2",
     "ts-loader": "^9.5.2",
-    "typescript": "^5.8.3"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.1"
   },
   "scripts": {
     "build": "sass src:dist && cp -r src/img dist/img && cp -r src/snd dist/snd && cp -r src/*.html dist/ && ./node_modules/.bin/tsc"
@@ -19,6 +24,7 @@
     "@tensorflow/tfjs-backend-webgl": "^4.22.0",
     "@tensorflow/tfjs-converter": "^4.22.0",
     "@tensorflow/tfjs-core": "^4.22.0",
-    "@types/showdown": "^2.0.6"
+    "@types/showdown": "^2.0.6",
+    "showdown": "^2.1.0"
   }
 }

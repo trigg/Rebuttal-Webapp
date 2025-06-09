@@ -415,7 +415,6 @@ export type RebuttalClientInternal = RebuttalClient & {
     watching_me: UserUUID[],
     peer_connection: Map<UserUUID, RTCPeerConnection>,
     last_chat_y_pos: number,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     cached_file_upload: Blob | null,
     cached_tags: UserUUID[],
     autocompleteing: boolean,

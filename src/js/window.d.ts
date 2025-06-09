@@ -1,8 +1,10 @@
-// This file should augment the properties of the `Window` with the type of the
-// `ContextBridgeApi` from `Electron.contextBridge` declared in `src/preload.ts`.
-export {};
+// Pushes rebuttal_app and ipc into global scope to allow us to avoid the type checker complaints
+import { RebuttalApp } from "./types";
+export { };
 declare global {
   interface Window {
-    ipc: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ipc: any,
+    rebuttal_app: RebuttalApp,
   }
 }

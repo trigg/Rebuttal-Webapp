@@ -6,26 +6,47 @@
   "author": "trigg <triggerhapp@gmail.com>",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
+    "@babel/core": "^7.27.4",
+    "@babel/preset-env": "^7.27.2",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.15.29",
+    "@types/qrcode": "^1.5.5",
+    "@types/sanitize-html": "^2.16.0",
     "@types/webpack": "^5.28.5",
+    "@typescript-eslint/eslint-plugin": "^8.33.1",
+    "@typescript-eslint/parser": "^8.33.1",
+    "babel-jest": "^30.0.0-beta.3",
     "copy-webpack-plugin": "^13.0.0",
+    "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-jest": "^28.13.0",
+    "html-loader": "^5.1.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^30.0.0-beta.3",
+    "jest-transform-stub": "^2.0.0",
+    "raw-loader": "^4.0.2",
     "sass-migrator": "^2.3.2",
+    "style-loader": "^4.0.0",
+    "ts-jest": "^29.3.4",
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
+    "typescript-eslint": "^8.33.1",
+    "uuid": "^11.1.0",
     "webpack": "^5.99.9",
-    "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.1"
+    "webpack-cli": "^6.0.1"
   },
   "scripts": {
-    "build": "sass src:dist && ./node_modules/.bin/webpack"
+    "build": "sass src:dist && ./node_modules/.bin/webpack",
+    "test": " jest"
   },
   "dependencies": {
     "@tensorflow-models/body-pix": "^2.2.1",
+    "@tensorflow/tfjs": "^4.22.0",
     "@tensorflow/tfjs-backend-webgl": "^4.22.0",
     "@tensorflow/tfjs-converter": "^4.22.0",
     "@tensorflow/tfjs-core": "^4.22.0",
-    "@types/showdown": "^2.0.6",
-    "showdown": "^2.1.0"
+    "qrcode": "^1.5.4",
+    "url": "^0.11.4"
   }
 }

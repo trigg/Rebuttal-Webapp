@@ -1,0 +1,20 @@
+<div class="videopair" id="{{client}}-video-pair-{{userid}}" data-userid="{{userid}}">
+    <div class=" videodiv" id="{{client}}-video-container-{{userid}}">
+        <video id="{{client}}-video-{{userid}}" poster="{{avatar}}" autoPlay="true" playsInline="true"
+            volume="{{uservolume}}" class="videovideo" height="250" width="444">
+
+        </video>
+        <canvas height="250" width="444" hidden="true" id="{{client}}-blur-{{userid}}"></canvas>
+        <img src="img/{{theme}}/webcamoff.svg" id="{{client}}-novideo-{{userid}}" class="videonovideo"
+            data-src="webcamoff.svg" alt="has no video" title="No video">
+        <img src="img/{{theme}}/micoff.svg" id="{{client}}-noaudio-{{userid}}" class="videonoaudio" alt="has no audio"
+            data-src="micoff.svg" title="No audio">
+        <img src="img/{{theme}}/noconnection.svg" id="{{client}}-noconn-{{userid}}" class="videonoconn"
+            data-src="noconnection.svg" alt="not connected" title="No connection">
+    </div>
+    <div class="livediv" id="{{client}}-livestream-container-{{userid}}">
+        <video id="{{client}}-live-{{userid}}" autoPlay="true" playsInline="true" class="livestreamvideo"></video>
+        <div id="{{client}}-live-message-{{userid}}" class="livestreamavailable">
+        </div>
+    </div>
+</div>

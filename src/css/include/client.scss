@@ -1,0 +1,467 @@
+@use "../theme";
+
+.client-view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: theme.$col2;
+    flex-grow: 1;
+}
+
+.client-core-view {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-grow: 1;
+    align-self: stretch;
+}
+
+.login-view,
+.signup-view {
+    background-color: theme.$col1;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    border: 0px;
+    border-radius: 50px;
+    align-items: center;
+}
+
+.login-img,
+.signup-img {
+    max-width: 80vw;
+    max-height: 60vw;
+}
+
+.useronline {
+    color: theme.$highlight;
+}
+
+.usertalking {
+    color: theme.$highlight;
+}
+
+.room-selector,
+.user-selector,
+.user-add,
+.room-add {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    cursor: default;
+    align-items: center;
+}
+
+.room-selector img,
+.room-add img {
+    width: theme.$iconsize;
+    height: theme.$iconsize;
+    border: 0px;
+}
+
+.user-selector img,
+.user-add img {
+    width: theme.$iconsize;
+    height: theme.$iconsize;
+    border: 0px;
+    border-radius: 12px;
+}
+
+.room-list,
+.user-list {
+    flex-grow: 0;
+    background-color: theme.$col1;
+    min-width: calc(6 * theme.$iconsize);
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-shrink: 0;
+    cursor: default;
+}
+
+.mid-view {
+    flex-grow: 1;
+    background-color: theme.$col2;
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+}
+
+.messageurl {
+    grid-column-start: 1;
+    grid-column-end: 5;
+}
+
+.messageimg {
+    grid-column-start: 1;
+    grid-column-end: 5;
+}
+
+.chat-scroller {
+    width: 100%;
+    overflow-x: hidden;
+    display: grid;
+    grid-template-columns: min-content theme.$iconsize min-content 5fr min-content;
+    flex-direction: column;
+    justify-content: start;
+    align-content: start;
+    align-items: center;
+}
+
+.text-segment {
+    display: contents;
+}
+
+.text-segment .message {
+    width: 100%;
+
+}
+
+.text-view,
+.voice-view {
+    flex-grow: 1;
+    height: 100%;
+    overflow-y: hidden;
+    display: flex;
+}
+
+.voice-view {
+    flex-wrap: wrap;
+}
+
+.chatroom {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 100vh;
+    justify-content: flex-end;
+}
+
+.chatroominput {
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    margin: 0px 0px;
+    width: 100%;
+    height: 2rem;
+    border-top: 2px solid #394a6d;
+
+}
+
+.chatroominputbutton {
+    flex-grow: 0;
+}
+
+.chatroominputtext {
+    flex-grow: 1;
+    border: unset;
+    background-color: theme.$col2;
+    resize: none;
+    outline: none;
+}
+
+.messagesegment p {
+    margin: 0px;
+}
+
+.chatscroller {
+    overflow: auto;
+}
+
+.dudmessagesegment {
+    height: 48px;
+}
+
+.messagesegment {
+    display: flex;
+    flex-direction: column;
+}
+
+.no-messages {
+    grid-column-start: 1;
+    grid-column-end: 6;
+}
+
+.message {
+    display: contents;
+    align-items: center;
+}
+
+.message.tagged {
+    background-color: theme.$col1;
+}
+
+.messageavatar {
+    width: theme.$iconsize;
+    height: theme.$iconsize;
+    align-self: start;
+}
+
+.messageedit {
+    justify-content: end;
+    align-items: end;
+}
+
+.message .messageuser {
+    display: contents;
+}
+
+.message .messagemessage {
+    flex-grow: 1;
+}
+
+.messageurl {
+    border-radius: 10px;
+    padding: 5px;
+    border: 1px theme.$col1 solid;
+}
+
+.chatroominputdraganddropouter {
+    display: flex;
+    justify-content: center;
+}
+
+.chatroominputdraganddrop {
+    position: relative;
+}
+
+.chatroominputdraganddropclose {
+    position: absolute;
+    top: -17px;
+    right: -9px;
+    color: red;
+    font-size: 30px;
+}
+
+.chatroominputdraganddropclose:after {
+    display: inline-block;
+    content: "\00d7";
+}
+
+.autocomplete {
+    position: relative;
+}
+
+.autocompleteinner {
+    position: absolute;
+    bottom: 0px;
+    z-index: 2;
+    border-top: 2px solid #394a6d;
+    background-color: theme.$col2;
+    width: 100%;
+}
+
+.autocompleteentry {
+    display: flex;
+    flex-direction: row;
+    height: 24px;
+}
+
+.autocompleteentry.selected {
+    background-color: theme.$col1;
+}
+
+.appLiveRoom {
+    flex-grow: 0;
+    display: flex;
+    overflow-y: hidden;
+    overflow-x: auto;
+    flex-shrink: 0;
+    justify-content: space-around;
+    color: white;
+}
+
+.appVoiceRoom {
+    display: flex;
+    flex-direction: row;
+    overflow-y: auto;
+    overflow-x: hidden;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.controls {
+    position: relative;
+}
+
+.controlsinner {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.chatWebcamOverlay {
+    position: absolute;
+}
+
+.chatWebcamOverlay .videodiv {
+    position: relative;
+}
+
+.videodiv,
+.livediv {
+    width: 444px;
+    height: 250px;
+    background-color: black;
+    border: 3px darkgray solid;
+    border-radius: 15px;
+    position: relative;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.videodiv::after,
+.livediv::after {
+    content: " ";
+    position: absolute;
+    z-index: 1;
+    border-radius: 15px;
+    border: 3px darkgray solid;
+    top: -3px;
+    bottom: -3px;
+    left: -3px;
+    right: -3px;
+}
+
+div.videodiv.videodivtalking::after {
+    border: 3px theme.$highlight solid;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+
+}
+
+.livelabelouter {
+    width: 100%;
+    height: 100%;
+    color: white;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+
+.videometer {
+    position: absolute;
+}
+
+.videonovideo {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    filter: invert(27%) sepia(85%) saturate(7203%) hue-rotate(358deg) brightness(98%) contrast(127%);
+    height: theme.$iconsize;
+    width: theme.$iconsize;
+}
+
+.videonoaudio {
+    position: absolute;
+    right: 0px;
+    height: theme.$iconsize;
+    top: theme.$iconsize;
+    width: theme.$iconsize;
+    filter: invert(27%) sepia(85%) saturate(7203%) hue-rotate(358deg) brightness(98%) contrast(127%);
+}
+
+.videonoconn {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: theme.$iconsize;
+    width: theme.$iconsize;
+}
+
+.popup_container {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background: #0005;
+    backdrop-filter: blur(3px);
+}
+
+.popup {
+    flex-direction: column;
+    display: flex;
+}
+
+.popup .invite,
+.popup .server,
+.popup .server,
+.popup .settings {
+    flex-grow: 0;
+}
+
+.fullscreenpopup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 2;
+    background: #000c;
+}
+
+canvas.blurcanvas {
+    width: 444px;
+    height: 250px;
+}
+
+.messageusertext {
+    height: 100%;
+}
+
+.messagemessage {
+    height: 100%
+}
+
+.message span {
+    display: inline-block;
+    align-self: baseline;
+    white-space: pre-wrap;
+}
+
+.message span.messageusertext {
+    align-items: start;
+}
+
+.parsed-message-segment.bold {
+    font-weight: bold;
+}
+
+.parsed-message-segment.italic {
+    font-style: italic;
+}
+
+.parsed-message-segment.monospace {
+    font-family: monospace;
+    border: darkgray 1px solid;
+    background-color: black;
+    color: greenyellow;
+}
+
+.parsed-message-segment.superscript {
+    vertical-align: super;
+}
+
+.parsed-message-segment.smaller {
+    font-size: 0.8rem;
+}
+
+.parsed-message-segment.larger {
+    font-size: 1.2rem;
+}
+
+.signup-form,
+.login-form {
+    display: flex;
+    flex-direction: column;
+}

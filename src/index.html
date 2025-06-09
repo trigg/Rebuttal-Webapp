@@ -1,13 +1,8 @@
+<!DOCTYPE html>
 <html>
 
 <head>
     <title>Rebuttal Webapp</title>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/core.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/soundreader.js"></script>
-    <script src="js/audio.js"></script>
     <script src="js/main.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -18,8 +13,7 @@
             <div class='contextmenu' id='contextmenu' style='display:none'>
             </div>
         </div>
-        <div class='fullscreenpopup popup' id='fullscreenpopup' style='display:none'>
-
+        <div class='fullscreenpopup popup' id='fullscreen-video-popup-container' style='display:none'>
         </div>
 
         <div class='settingbutton'>
@@ -34,53 +28,33 @@
             <img class='button' id='serverbutton' data-src='serverbutton.svg' alt='Server settings'
                 title='Server Settings' />
         </div>
-        <div class='window loginwindow' id='loginWindow'>
-            <form id='login' class='login' action='javascript:void(0);'>
-                <div class='loginlogodiv'><img src='' alt='' class='loginlogo' id='loginlogo' alt='Server logo' />
+        <div class="windowouter outerappwindow" id="appCore">
+            <div class="serverpane" id="serverpane">
+                <img class="servericon" id="onemoreserver" data-src="plus.svg">
+            </div>
+            <div class='window appwindow' id='appWindow'>
+                <div class="add_server_room" id="appaddserver" style='display:none;'>
+                    <form id="add_server_form">
+                        <label for="add_server_host">Server hostname</label>
+                        <input type="text" id="add_server_host" />
+                        <div>
+                            <input type="checkbox" id="add_server_host_remember_password" />
+                            <label for="add_server_host_remember_password">Remember password</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="add_server_host_connect_on_start" />
+                            <label for="add_server_host_connect_on_start">Autoconnect on start</label>
+                        </div>
+                        <input type="submit" id="add_server_host_now" value="Add Server" />
+                    </form>
                 </div>
-                <div class='logintitle' id='logintitle'></div>
-                <input type='text' placeholder='Email' id='loginEmail' autocomplete="username" />
-                <input type='password' placeholder='Password' id='loginPassword' autocomplete="current-password" />
-                <div id='loginReply'></div>
-                <input type='submit' value='Log in' id='loginButton' />
-            </form>
-            <form id='signup' class='login' action='javascript:void(0);'>
-                <div class='signuplogodiv'><img src='' alt='' class='loginlogo' id='signuplogo' alt='Server logo' />
-                </div>
-                <div class='signuptitle' id='signuptitle'></div>
-                <input type='text' placeholder='Email' id='signupEmail' autocomplete="username" />
-                <input type='text' placeholder='Email (again)' id='signupEmail2' autocomplete="username" />
-                <input type='text' placeholder='Username' id='signupUser' />
-                <input type='password' placeholder='Password' id='signupPassword' autocomplete="new-password" />
-                <input type='password' placeholder='Password (again)' id='signupPassword2'
-                    autocomplete="new-password" />
-                <div id='signupReply'></div>
-                <input type='submit' value='Sign Up' id='signupButton' />
-            </form>
-        </div>
-        <div class='window appwindow' id='appWindow' style='display:none'>
-            <div class='roomlist' id='appRoomList'></div>
-            <div class='coreview' id='appCoreView'></div>
-            <div class='userlist' id='appUserList'></div>
+            </div>
         </div>
         <div class='popupscreenshare popup' id='popupscreenshare' style='display:none'></div>
         <div class='popupcustomouter popup' id='popupcustomouter' style='display:none'>
             <div class='popupcustom' id='popupcustom'>
                 <div class='customclose close' id='customclose'></div>
                 <div class='popupcustominner' id='popupcustominner'></div>
-            </div>
-        </div>
-        <div class='popup popupinvite' id='popupinvite' style='display:none'>
-
-            <div class='invite' id='invite'>
-                <div class='inviteclose close' id='inviteclose'></div>
-                <form id='inviteuserform'>
-                    <select id='inviteusergroup'>
-                    </select>
-                    <div id='inviteuserreply'></div>
-                    <input type='submit' value='Create Invite' />
-                    <div id='inviteqrcode'></div>
-                </form>
             </div>
         </div>
         <div class='popup popupserver' id='popupserver' style='display:none'>

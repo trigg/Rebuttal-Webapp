@@ -1,0 +1,80 @@
+<div id="{{client}}-client-view" class="client-view">
+    <div class="popup_container" id="{{client}}-popup-container">
+
+        <div class='popup popupinvite' id='{{client}}-popup-invite'>
+            <div class='invite' id='{{client}}-invite'>
+                <div class='inviteclose close' id='{{client}}-invite-close'></div>
+                <form id='{{client}}-invite-user-form'>
+                    <select id='{{client}}-invite-user-group'>
+                    </select>
+                    <div id='{{client}}-invite-user-reply'></div>
+                    <input type='submit' value='Create Invite' />
+                    <canvas id='{{client}}-invite-qr-code'>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="{{client}}-signup-view" class="signup-view">
+        <form id="{{client}}-signup-form" class="signup-form">
+            <img src="" id="{{client}}-signup-img" class="signup-img">
+            <p id="{{client}}-signup-desc" class="signup-desc"></p>
+            <label for="{{client}}-signup-name">Email Address</label><input id="{{client}}-signup-name"
+                class="email-address" type="email">
+            <label for="{{client}}-signup-friendly-name">Name</label><input id="{{client}}-signup-friendly-name"
+                class="name" type="text">
+            <label for="{{client}}-signup-pass">Password</label><input id="{{client}}-signup-pass" class="password"
+                type="password">
+            <label for="{{client}}-signup-pass2">Password again</label><input id="{{client}}-signup-pass2"
+                class="password" type="password">
+            <input type="submit" value="Sign Up" />
+            <p id="{{client}}-signup-reply"></p>
+        </form>
+    </div>
+    <div id="{{client}}-login-view" class="login-view">
+        <form id="{{client}}-login-form" class="login-form">
+            <img src="" id="{{client}}-login-img" class="login-img">
+            <p id="{{client}}-login-desc" class="login-desc"></p>
+            <label for="{{client}}-login-name">Email address</label>
+            <input id="{{client}}-login-name" class="email-address" type="email">
+            <label for="{{client}}-login-pass">Password</label>
+            <input id="{{client}}-login-pass" class="password" type="password">
+            <input type="submit" value="Login" />
+            <p id="{{client}}-login-reply"></p>
+        </form>
+    </div>
+    <div id="{{client}}-core-view" class="client-core-view">
+        <div id="{{client}}-room-list" class="room-list">
+            <div id="{{client}}-room-add" class="room-add"><img src="img/{{theme}}/plus.svg" data-src="plus.svg">
+                <div>Create
+                    room</div>
+            </div>
+        </div>
+        <div id="{{client}}-mid-view" class="mid-view">
+            <div id="{{client}}-voice-view" class="voice-view">
+            </div>
+            <div id="{{client}}-text-view" class="text-view">
+                <div id="{{client}}-chat-scroller" class="chat-scroller">
+                    <div id="{{client}}-load-more-text" class="no-messages">
+                        Loading more messages...
+                    </div>
+                </div>
+            </div>
+            <div id="{{client}}-drag-and-drop-outer">
+                <div id="{{client}}-drag-and-drop">
+                    <img src="" id="{{client}}-drag-and-drop-img" alt="Pending user uploaded image">
+                    <div id="{{client}}-drag-and-drop-cancel"></div>
+                </div>
+            </div>
+            <form id="{{client}}-text-input-form" class="chatroominput">
+                <textarea id="{{client}}-text-input" class="text-input chatroominputtext"></textarea>
+                <input type="image" alt="Send Message" src="img/{{theme}}/send.svg" value="Send">
+            </form>
+            <div id="{{client}}-autocomplete" class="autocomplete"></div>
+        </div>
+        <div id="{{client}}-user-list" class="user-list">
+            <div id="{{client}}-user-add" class="user-add"><img src="img/{{theme}}/plus.svg" data-src="plus.svg">
+                <div>Create user invite</div>
+            </div>
+        </div>
+    </div>
+</div>

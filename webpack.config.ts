@@ -5,11 +5,12 @@ import { fileURLToPath } from 'url';
 import CopyPlugin from "copy-webpack-plugin";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-// in case you run into any typescript error when configuring `devServer`
-import 'webpack-dev-server';
 
 const config: webpack.Configuration = {
-  mode: 'production',
+  resolve: {
+    extensions: ['.ts', '.js'],
+  },
+  mode: 'development',
   entry: './src/js/main.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -17,20 +18,26 @@ const config: webpack.Configuration = {
   },
   module: {
     rules: [
-        {
-            test: /\.ts?$/,
-            use: 'ts-loader',
-            exclude: /node_modules/,
-        }
+      {
+        test: /\.ts?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.html$/,
+        use: 'raw-loader'
+      }
     ]
   },
   plugins: [
     new CopyPlugin(
-    { patterns: [
-      { from: "src/img", to: "img"},
-      { from: "src/snd", to: "snd"},
-      { from: "*.html", to: "", context:"src/"},      
-    ]}
+      {
+        patterns: [
+          { from: "src/img", to: "img" },
+          { from: "src/snd", to: "snd" },
+          { from: "*.html", to: "", context: "src/" },
+        ]
+      }
     )
   ]
 

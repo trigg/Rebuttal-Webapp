@@ -25,6 +25,7 @@
     "jest-environment-jsdom": "^30.0.0-beta.3",
     "jest-transform-stub": "^2.0.0",
     "raw-loader": "^4.0.2",
+    "sass": "^1.89.2",
     "sass-migrator": "^2.3.2",
     "style-loader": "^4.0.0",
     "ts-jest": "^29.3.4",
